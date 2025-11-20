@@ -62,10 +62,7 @@ export default function CandidateSidebar({
   const allCandidates = candidates.slice(UI_CONSTANTS.MOST_RECOMMENDED_COUNT);
 
   return (
-    <div
-      className="bg-white border-r border-gray-200 h-full overflow-y-auto flex flex-col"
-      style={{ width: "var(--sidebar-width)" }}
-    >
+    <div className="bg-white border-r border-gray-200 h-full overflow-y-auto flex flex-col w-[var(--sidebar-width)]">
       <div className="p-5 flex-1 overflow-y-auto">
         <div className="mb-6">
           <h2 className="text-base font-semibold text-gray-900 mb-3">Most recommended</h2>

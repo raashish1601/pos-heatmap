@@ -28,19 +28,22 @@ export default function ComparisonGrid({
   const candidatesToShow = isEmpty ? candidates : displayedCandidates;
 
   return (
-    <div className="flex-1 overflow-auto bg-white relative">
+    <div className="flex-1 overflow-auto bg-white relative" ref={scrollRef}>
       <div className="px-5">
-        <div className="overflow-x-auto overflow-y-visible" ref={scrollRef}>
+        <div className="sticky top-0 z-51 bg-white pb-3">
+          <div className="overflow-x-auto scrollbar-hide">
+            <div className="inline-block min-w-full">
+              <GridHeader candidates={candidatesToShow} />
+            </div>
+          </div>
+        </div>
+        <div className="overflow-x-auto scrollbar-hide">
           <div className="inline-block min-w-full overflow-visible relative">
-            <GridHeader candidates={candidatesToShow} />
             <div className="relative">
               <div>
                 {skills.map((skill, skillIndex) => (
                   <div key={skill.name} className="flex bg-white">
-                    <div
-                      className="shrink-0 py-1 px-4 flex items-center bg-white"
-                      style={{ width: "var(--skill-column-width)" }}
-                    >
+                    <div className="shrink-0 py-1 px-4 flex items-center bg-white w-(--skill-column-width) sticky left-0 z-20">
                       <span className="text-sm font-medium text-gray-900 leading-5">
                         {skill.name}
                       </span>
@@ -60,8 +63,7 @@ export default function ComparisonGrid({
                         return (
                           <div
                             key={`${candidate.id}-${skill.name}`}
-                            className={`shrink-0 h-6 flex items-center justify-center ${cellColor}`}
-                            style={{ width: "var(--candidate-column-width)" }}
+                            className={`shrink-0 h-6 flex items-center justify-center w-(--candidate-column-width) ${cellColor}`}
                           >
                             {isNumeric ? (
                               <span className="text-sm font-medium text-gray-900">{value}</span>
@@ -76,10 +78,7 @@ export default function ComparisonGrid({
                 ))}
               </div>
               {isEmpty && (
-                <div
-                  className="absolute top-0 bottom-0 right-0 flex items-center justify-center bg-white/80 z-50"
-                  style={{ left: "var(--skill-column-width)" }}
-                >
+                <div className="absolute top-0 bottom-0 right-0 left-(--skill-column-width) flex items-center justify-center bg-white/80">
                   <button className="px-6 py-3 bg-green-800 text-white rounded-md font-medium hover:bg-green-900 transition-colors shadow-lg cursor-pointer text-base">
                     Select candidate to compare
                   </button>

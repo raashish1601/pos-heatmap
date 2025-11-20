@@ -12,10 +12,7 @@ interface GridRowProps {
 export default function GridRow({ skill, skillIndex, candidates }: GridRowProps) {
   return (
     <div className="flex bg-white">
-      <div
-        className="shrink-0 py-1 px-4 flex items-center bg-white"
-        style={{ width: "var(--skill-column-width)" }}
-      >
+      <div className="shrink-0 py-1 px-4 flex items-center bg-white w-[var(--skill-column-width)]">
         <span className="text-sm font-medium text-gray-900 leading-5">{skill.name}</span>
       </div>
 

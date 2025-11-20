@@ -7,24 +7,19 @@ interface GridHeaderProps {
 export default function GridHeader({ candidates }: GridHeaderProps) {
   return (
     <div className="flex items-start mb-3 overflow-visible">
-      <div className="mb-3" style={{ width: "var(--skill-column-width)" }}></div>
+      <div className="mb-3 w-[var(--skill-column-width)] sticky left-0 z-30 bg-white"></div>
       <div className="flex items-start gap-0 overflow-visible">
         {candidates.map((candidate, index) => (
           <div
             key={candidate.id}
-            className="shrink-0 flex flex-col items-center relative overflow-visible pt-[50px] mr-1"
-            style={{ width: "var(--candidate-column-width)" }}
+            className="shrink-0 flex flex-col items-center relative overflow-visible pt-[50px] mr-1 w-[var(--candidate-column-width)]"
           >
             <div
-              className="absolute top-[-10px] left-[50px] right-0 h-[50px] overflow-visible flex items-center justify-center"
-              style={{ zIndex: 20 + index }}
+              className={`absolute top-[-10px] left-[50px] right-0 h-[50px] overflow-visible flex items-center justify-center z-[${20 + index}]`}
             >
               <span
-                className="text-[10px] font-medium text-gray-700 whitespace-nowrap inline-block"
-                style={{
-                  transform: "rotate(-45deg)",
-                  transformOrigin: "center center",
-                }}
+                className="text-[10px] font-medium text-gray-700 whitespace-nowrap inline-block -rotate-45 origin-center"
+                title={candidate.name}
               >
                 {candidate.name}
               </span>

@@ -7,8 +7,7 @@ interface GridCellProps {
 export default function GridCell({ value, isNumeric, cellColor }: GridCellProps) {
   return (
     <div
-      className={`shrink-0 h-6 flex items-center justify-center ${cellColor}`}
-      style={{ width: "var(--candidate-column-width)" }}
+      className={`shrink-0 h-6 flex items-center justify-center w-[var(--candidate-column-width)] ${cellColor}`}
     >
       {isNumeric ? (
         <span className="text-sm font-medium text-gray-900">{value}</span>
