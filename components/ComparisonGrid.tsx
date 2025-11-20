@@ -1,13 +1,8 @@
 import { Candidate, Skill, FilterOptions } from "@/types";
-import dynamic from "next/dynamic";
 import { useDebouncedFilters } from "@/hooks/useDebouncedFilters";
-import { getDisplayedCandidates } from "@/utils/candidateUtils";
+import { getDisplayedCandidates, getCandidateValue } from "@/utils/candidateUtils";
+import { getProficiencyColor, getNumericCellColor } from "@/utils/proficiencyColors";
 import GridHeader from "@/components/GridHeader";
-import GridRow from "@/components/GridRow";
-
-const ColorLegend = dynamic(() => import("@/components/ColorLegend"), {
-  ssr: false,
-});
 
 interface ComparisonGridProps {
   candidates: Candidate[];
@@ -29,34 +24,70 @@ export default function ComparisonGrid({
   useDebouncedFilters(filters, onFiltersChange);
 
   const displayedCandidates = getDisplayedCandidates(candidates, selectedCandidates);
+  const isEmpty = displayedCandidates.length === 0;
+  const candidatesToShow = isEmpty ? candidates : displayedCandidates;
 
   return (
-    <div className="flex-1 overflow-auto bg-white">
-      <div className="p-5">
-        {displayedCandidates.length === 0 ? (
-          <div className="flex items-center justify-center h-[500px]">
-            <p className="text-gray-500">No valid candidates selected</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto overflow-y-visible" ref={scrollRef}>
-            <div className="inline-block min-w-full overflow-visible">
-              <div className="mb-3">
-                <ColorLegend />
-              </div>
-              <GridHeader candidates={displayedCandidates} />
+    <div className="flex-1 overflow-auto bg-white relative">
+      <div className="px-5">
+        <div className="overflow-x-auto overflow-y-visible" ref={scrollRef}>
+          <div className="inline-block min-w-full overflow-visible relative">
+            <GridHeader candidates={candidatesToShow} />
+            <div className="relative">
               <div>
                 {skills.map((skill, skillIndex) => (
-                  <GridRow
-                    key={skill.name}
-                    skill={skill}
-                    skillIndex={skillIndex}
-                    candidates={displayedCandidates}
-                  />
+                  <div key={skill.name} className="flex bg-white">
+                    <div
+                      className="shrink-0 py-1 px-4 flex items-center bg-white"
+                      style={{ width: "var(--skill-column-width)" }}
+                    >
+                      <span className="text-sm font-medium text-gray-900 leading-5">
+                        {skill.name}
+                      </span>
+                    </div>
+                    <div className={`flex gap-1 min-h-6 ${isEmpty ? "opacity-60" : ""}`}>
+                      {candidatesToShow.map((candidate) => {
+                        const value = getCandidateValue(candidate, skill);
+                        const isNumeric = skill.type === "numeric";
+                        const cellColor = isNumeric
+                          ? skillIndex < 3
+                            ? getNumericCellColor(skillIndex)
+                            : "bg-white"
+                          : typeof value === "number"
+                            ? getProficiencyColor(value)
+                            : "bg-gray-100";
+
+                        return (
+                          <div
+                            key={`${candidate.id}-${skill.name}`}
+                            className={`shrink-0 h-6 flex items-center justify-center ${cellColor}`}
+                            style={{ width: "var(--candidate-column-width)" }}
+                          >
+                            {isNumeric ? (
+                              <span className="text-sm font-medium text-gray-900">{value}</span>
+                            ) : (
+                              <div className={`w-full h-full ${cellColor}`}></div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 ))}
               </div>
+              {isEmpty && (
+                <div
+                  className="absolute top-0 bottom-0 right-0 flex items-center justify-center bg-white/80 z-50"
+                  style={{ left: "var(--skill-column-width)" }}
+                >
+                  <button className="px-6 py-3 bg-green-800 text-white rounded-md font-medium hover:bg-green-900 transition-colors shadow-lg cursor-pointer text-base">
+                    Select candidate to compare
+                  </button>
+                </div>
+              )}
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

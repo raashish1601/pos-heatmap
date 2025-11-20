@@ -1,27 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import TabNavigation from "@/components/TabNavigation";
 import CandidateSidebar from "@/components/CandidateSidebar";
 import FilterButton from "@/components/FilterButton";
-import EmptyState from "@/components/EmptyState";
+import ComparisonGrid from "@/components/ComparisonGrid";
 import { ViewType, Candidate, Skill } from "@/types";
 import { UI_CONSTANTS } from "@/constants/ui";
 import { applyCandidateFilters } from "@/utils/candidateFilters";
 import { useFilters } from "@/hooks/useFilters";
 import { useCandidateSelection } from "@/hooks/useCandidateSelection";
 import { useGridNavigation } from "@/hooks/useGridNavigation";
-
-const ComparisonGrid = dynamic(() => import("@/components/ComparisonGrid"), {
-  loading: () => (
-    <div className="flex-1 flex items-center justify-center bg-white">
-      <div className="text-gray-500">Loading comparison grid...</div>
-    </div>
-  ),
-  ssr: false,
-});
 
 interface CandidateComparisonClientProps {
   candidates: Candidate[];
@@ -79,32 +69,16 @@ export default function CandidateComparisonClient({
                 onToggleFilter={() => setShowFilter(!showFilter)}
                 onFilterChange={handleFilterChange}
                 onFiltersChange={setFilters}
-                onClearFilters={() => {
-                  const clearedFilters = {
-                    minExperience: undefined,
-                    maxExperience: undefined,
-                    minSalary: undefined,
-                    maxSalary: undefined,
-                    maxJoinDays: undefined,
-                    selectedSkills: [],
-                    sortBy: undefined,
-                    sortOrder: "asc" as const,
-                  };
-                  setFilters(clearedFilters);
-                }}
+                onClearFilters={clearFilters}
               />
-              {selectedCandidates.length === 0 ? (
-                <EmptyState message="Select candidates to compare" />
-              ) : (
-                <ComparisonGrid
-                  candidates={candidates}
-                  selectedCandidates={selectedCandidates}
-                  skills={skills}
-                  scrollRef={gridScrollRef}
-                  filters={filters}
-                  onFiltersChange={setFilters}
-                />
-              )}
+              <ComparisonGrid
+                candidates={candidates}
+                selectedCandidates={selectedCandidates}
+                skills={skills}
+                scrollRef={gridScrollRef}
+                filters={filters}
+                onFiltersChange={setFilters}
+              />
             </>
           )}
           {activeView === "individual" && (
