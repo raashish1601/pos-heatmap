@@ -1,6 +1,7 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import unusedImports from "eslint-plugin-unused-imports";
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -13,6 +14,33 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    plugins: {
+      "unused-imports": unusedImports,
+    },
+    rules: {
+      // Disable console.log and console.error in production code
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      // Remove unused imports
+      "unused-imports/no-unused-imports": "error",
+      // Remove unused variables
+      "unused-imports/no-unused-vars": [
+        "warn",
+        {
+          vars: "all",
+          varsIgnorePattern: "^_",
+          args: "after-used",
+          argsIgnorePattern: "^_",
+        },
+      ],
+      // Override default no-unused-vars to avoid conflicts
+      "no-unused-vars": "off",
+      // TypeScript specific rules
+      "@typescript-eslint/no-unused-vars": "off", // Use unused-imports plugin instead
+      // Allow setState in effects for controlled components (valid pattern)
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

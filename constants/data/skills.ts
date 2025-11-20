@@ -1,0 +1,27 @@
+import { Skill } from "@/types";
+
+export const COMPARISON_SKILLS: Skill[] = [
+  { name: "Experience", type: "numeric" },
+  { name: "Can join in", type: "numeric" },
+  { name: "Minimum salary expected", type: "numeric" },
+  { name: "Creating Wireframes", type: "skill" },
+  { name: "Creating Basic Prototypes", type: "skill" },
+  { name: "Creation of Brands", type: "skill" },
+  { name: "Applying Color Theory", type: "skill" },
+  { name: "Using Figma for Design", type: "skill" },
+  { name: "Application of Typography", type: "skill" },
+  { name: "Creating Effective Icons", type: "skill" },
+  { name: "Optimizing Touch Points", type: "skill" },
+  { name: "Addressing User Pain Points", type: "skill" },
+  { name: "Conducting User Research", type: "skill" },
+  { name: "Applying Questioning Skills", type: "skill" },
+  { name: "Conducting Heuristic Evaluation", type: "skill" },
+  { name: "Gathering User Feedback", type: "skill" },
+  { name: "Conducting Usability Tests", type: "skill" },
+  { name: "Creating User Personas", type: "skill" },
+  { name: "Conducting Market Research", type: "skill" },
+  { name: "Crafting Effective Questions", type: "skill" },
+  { name: "Creating Effective Surveys", type: "skill" },
+  { name: "Creating Sitemaps", type: "skill" },
+  { name: "Designing User Flows", type: "skill" },
+];
