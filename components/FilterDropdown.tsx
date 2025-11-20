@@ -19,7 +19,7 @@ export default function FilterDropdown({
 }: FilterDropdownProps) {
   return (
     <div
-      className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-4"
+      className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-52 p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget && onClose) {
           onClose();
